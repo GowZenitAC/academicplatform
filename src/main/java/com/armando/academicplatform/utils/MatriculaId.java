@@ -10,7 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MatriculaId implements Serializable {
-    private Long student;
+    private String student;
     private Long course;
     private Long period;
 }

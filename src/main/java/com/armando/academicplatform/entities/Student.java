@@ -14,15 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(unique = true)
+    private String codigoMatricula;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    @Column(unique = true)
-    private String codigoMatricula;
 
     @OneToMany(mappedBy = "student")
     List<Matricula> matriculas;
