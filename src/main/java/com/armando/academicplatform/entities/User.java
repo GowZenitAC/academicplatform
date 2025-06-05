@@ -33,9 +33,9 @@ public class User {
     @JoinColumn(name = "rol_id", nullable = false)
     private Role role;
 
-    @Transient //-> no se irá a ir a la base de datos
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private boolean isAdmin;
+//    @Transient //-> no se irá a ir a la base de datos
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    private boolean isAdmin;
 
     private boolean enabled;
 
