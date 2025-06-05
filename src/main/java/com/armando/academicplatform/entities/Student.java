@@ -22,7 +22,7 @@ public class Student {
     private User user;
 
     @Column(unique = true)
-    private String codigo_matricula;
+    private String codigoMatricula;
 
     @OneToMany(mappedBy = "student")
     List<Matricula> matriculas;

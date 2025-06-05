@@ -29,14 +29,9 @@ public class User {
     @Size(min = 8) @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"),
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role_id"})}
-    )
-    private List<Role> roles;
+    @ManyToOne
+    @JoinColumn(name = "rol_id", nullable = false)
+    private Role role;
 
     @Transient //-> no se irá a ir a la base de datos
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

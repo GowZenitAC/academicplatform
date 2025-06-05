@@ -9,6 +9,12 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String name;
+    @Column(unique = true, nullable = false)
+    private RoleName name;
+
+    public enum RoleName {
+        ROLE_ADMIN,
+        ROLE_TEACHER,
+        ROLE_STUDENT
+    }
 }
