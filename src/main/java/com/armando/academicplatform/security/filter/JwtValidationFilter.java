@@ -46,7 +46,7 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
                 return;
             }
 
-            String role = (String) claims.get("authorities");
+            String role = (String) claims.get("role");
             if (role == null) {
                 sendError(response, "Token inválido: falta el rol");
                 return;
