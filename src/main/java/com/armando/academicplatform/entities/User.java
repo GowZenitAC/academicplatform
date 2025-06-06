@@ -1,5 +1,6 @@
 package com.armando.academicplatform.entities;
 
+import com.armando.academicplatform.validations.IsExistDb;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -23,7 +24,8 @@ public class User {
     @NotBlank
     private String name;
 
-    @Column(unique = true) @Size(min = 5, max = 15)
+    @Column(unique = true) @IsExistDb
+    @Size(min = 5, max = 15)
     private String username;
 
     @Size(min = 8) @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
