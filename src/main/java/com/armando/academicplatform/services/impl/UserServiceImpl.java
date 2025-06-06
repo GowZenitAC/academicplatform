@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User save(User user) {
         if (user == null) {
             throw new IllegalArgumentException("El usuario no puede ser null");
