@@ -3,6 +3,7 @@ package com.armando.academicplatform.services.impl;
 import com.armando.academicplatform.entities.Role;
 import com.armando.academicplatform.entities.User;
 import com.armando.academicplatform.exceptions.AdminUserAlreadyExistsException;
+import com.armando.academicplatform.exceptions.InvalidRoleException;
 import com.armando.academicplatform.repositories.RoleRepository;
 import com.armando.academicplatform.repositories.UserRepository;
 import com.armando.academicplatform.entities.Role.RoleName;
@@ -38,17 +39,21 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("El usuario no puede ser null");
         }
 
-        //se determina el tipo de rol
-        RoleName targetRoleName;
-        if (user.getRole() == null || user.getRole().getName() == null)
-            targetRoleName = user.isAdmin() ? RoleName.ROLE_ADMIN : RoleName.ROLE_STUDENT;
-         else
-            targetRoleName = user.getRole().getName();
-
-        //aca se valida si ya hay alguien con él role de admin
-        if (targetRoleName == RoleName.ROLE_ADMIN && userRepository.existsByRoleName(RoleName.ROLE_ADMIN)) {
-            throw new AdminUserAlreadyExistsException("Ya existe un usuario con el rol ROLE_ADMIN");
+        // Validar que el rol esté especificado
+        if (user.getRole() == null || user.getRole().getName() == null) {
+            throw new InvalidRoleException("Debe especificar un rol (ROLE_STUDENT o ROLE_TEACHER)");
         }
+
+        RoleName targetRoleName = user.getRole().getName();
+        // Validar rol permitido
+        if (targetRoleName != RoleName.ROLE_STUDENT && targetRoleName != RoleName.ROLE_TEACHER) {
+            throw new InvalidRoleException("Solo se permiten los roles: ROLE_STUDENT o ROLE_TEACHER");
+        }
+
+        // Validar rol ADMIN único (si aplica)
+//        if (targetRoleName == RoleName.ROLE_ADMIN && userRepository.existsByRoleName(RoleName.ROLE_ADMIN)) {
+//            throw new AdminUserAlreadyExistsException("Ya existe un usuario con el rol ROLE_ADMIN");
+//        }
 
 
             Optional<Role> optionalRole = roleRepository.findByName(targetRoleName);
