@@ -1,6 +1,7 @@
 package com.armando.academicplatform.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,5 +28,6 @@ public class Period {
     private LocalDate finish_date;
 
     @OneToMany(mappedBy = "period")
+    @JsonIgnore
     private List<Matricula> matriculas;
 }
