@@ -1,5 +1,7 @@
 package com.armando.academicplatform.security;
 
+import com.armando.academicplatform.security.filter.JwtAuthenticationFilter;
+import com.armando.academicplatform.security.filter.JwtValidationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +29,8 @@ public class SpringSecurityConfig {
     }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager());
+        JwtValidationFilter jwtValidationFilter = new JwtValidationFilter(authenticationManager());
         return httpSecurity
                 .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF para APIs REST
                 .authorizeHttpRequests(auth -> auth
@@ -34,6 +38,8 @@ public class SpringSecurityConfig {
                         .anyRequest().authenticated() // Otros endpoints requieren autenticación
                 )
                 .sessionManagement(m -> m.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Sin sesiones
+                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilter(new JwtValidationFilter(authenticationManager()))
                 .build();
     }
 

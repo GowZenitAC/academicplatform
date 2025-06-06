@@ -24,6 +24,8 @@ import static com.armando.academicplatform.security.TokenJwtConfig.*;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -57,20 +59,44 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authResult.getPrincipal();
+        org.springframework.security.core.userdetails.User userDetails = (org.springframework.security.core.userdetails.User) authResult.getPrincipal();
 
-        Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
-        String username = user.getUsername();
-        Claims claims = Jwts.claims()
-                .add("authorities", new ObjectMapper().writeValueAsString(roles))
-                .add("username", username)
-                .build();
+        String role = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .findFirst()
+                .orElseThrow();
+        String username = userDetails.getUsername();
+//        Claims claims = Jwts.claims()
+//                .add("authorities", role)
+//                .add("username", username)
+//                .build();
 
-        
+        String token = Jwts.builder()
+                .subject(username)
+                .claim("role", role)
+                .expiration(new Date(System.currentTimeMillis() + 3600000))
+                .issuedAt(new Date())
+                .signWith(SECRET_KEY)
+                .compact();
+
+        response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN + token);
+        Map<String, String> body = new HashMap<>();
+        body.put("token", token);
+        body.put("username", username);
+        body.put("message", String.format("Hola %s has iniciado sesión exitosamente", username));
+
+        response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+        response.setContentType(CONTENT_TYPE);
+        response.setStatus(200);
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        super.unsuccessfulAuthentication(request, response, failed);
+        Map<String, String> body = new HashMap<>();
+        body.put("error", failed.getMessage() );
+        body.put("message", "Error en la autenticacion, username o password incorrecto");
+
+        response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+        response.setStatus(401);
     }
 }
