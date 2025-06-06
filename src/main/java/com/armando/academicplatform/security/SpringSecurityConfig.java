@@ -30,7 +30,7 @@ public class SpringSecurityConfig {
         return httpSecurity
                 .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF para APIs REST
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/register", "/api/auth/login").permitAll() // Permitir registro y login
+                        .requestMatchers("/api/auth/register").permitAll() // Permitir registro y login
                         .anyRequest().authenticated() // Otros endpoints requieren autenticación
                 )
                 .sessionManagement(m -> m.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Sin sesiones
