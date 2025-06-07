@@ -1,6 +1,6 @@
 package com.armando.academicplatform.dtos.course;
 
-import com.armando.academicplatform.dtos.subject.SubjectResponseDTO;
+import com.armando.academicplatform.dtos.subject.SubjectDetailOnCourseDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,5 +12,5 @@ public class CourseResponseDTO {
     private Long id;
     private String name;
     private String academicYear;
-    private List<SubjectResponseDTO> subjects;
+    private List<SubjectDetailOnCourseDTO> subjects;
 }

@@ -2,7 +2,7 @@ package com.armando.academicplatform.services.impl;
 
 import com.armando.academicplatform.dtos.course.CourseRequestDTO;
 import com.armando.academicplatform.dtos.course.CourseResponseDTO;
-import com.armando.academicplatform.dtos.subject.SubjectResponseDTO;
+import com.armando.academicplatform.dtos.subject.SubjectDetailOnCourseDTO;
 import com.armando.academicplatform.entities.Course;
 import com.armando.academicplatform.entities.Subject;
 import com.armando.academicplatform.repositories.CourseRepository;
@@ -82,15 +82,15 @@ public class CourseServiceImpl implements CourseService {
         dto.setName(course.getName());
         dto.setAcademicYear(course.getAcademicYear());
 
-        List<SubjectResponseDTO> subjectResponsDTOS = course.getSubjects().stream()
+        List<SubjectDetailOnCourseDTO> subjectResponsDTOS = course.getSubjects().stream()
                 .map(this::mapperToSubjectResponseDto)
                 .collect(Collectors.toList());
         dto.setSubjects(subjectResponsDTOS);
         return dto;
     }
 
-    private SubjectResponseDTO mapperToSubjectResponseDto(Subject subject){
-        SubjectResponseDTO dto = new SubjectResponseDTO();
+    private SubjectDetailOnCourseDTO mapperToSubjectResponseDto(Subject subject){
+        SubjectDetailOnCourseDTO dto = new SubjectDetailOnCourseDTO();
         dto.setId(subject.getId());
         dto.setName(subject.getName());
         if (subject.getTeacher() != null && subject.getTeacher().getUser() != null) {
