@@ -59,8 +59,7 @@ public class StudentServiceImpl implements StudentService {
     private StudentResponseDTO mapToStudentResponseDTO(Student student){
         return new StudentResponseDTO(
                 student.getCodigoMatricula(),
-                student.getUser().getName(),
-                student.getUser().getUsername()
+                student.getUser().getName()
         );
     }
 }

@@ -40,8 +40,7 @@ public class StudentController {
                 .map( student -> {
                     StudentResponseDTO dto = new StudentResponseDTO(
                         student.getCodigoMatricula(),
-                        student.getUser().getName(),
-                        student.getUser().getUsername()
+                        student.getUser().getName()
                     );
                     return ResponseEntity.ok(dto);
                 })

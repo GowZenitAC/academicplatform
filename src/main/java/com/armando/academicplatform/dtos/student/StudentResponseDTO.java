@@ -8,12 +8,10 @@ import lombok.Setter;
 public class StudentResponseDTO {
     private String codigoMatricula;
     private String fullName;
-    private String username;
 
-    public StudentResponseDTO(String codigoMatricula, String fullName, String username) {
+    public StudentResponseDTO(String codigoMatricula, String fullName) {
         this.codigoMatricula = codigoMatricula;
         this.fullName = fullName;
-        this.username = username;
     }
 
 }
