@@ -22,7 +22,7 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping
-    public List<Student> findAll(){
+    public List<StudentResponseDTO> findAll(){
         return studentService.findAll();
     }
 
@@ -40,6 +40,7 @@ public class StudentController {
                 .map( student -> {
                     StudentResponseDTO dto = new StudentResponseDTO(
                         student.getCodigoMatricula(),
+                        student.getUser().getName(),
                         student.getUser().getUsername()
                     );
                     return ResponseEntity.ok(dto);

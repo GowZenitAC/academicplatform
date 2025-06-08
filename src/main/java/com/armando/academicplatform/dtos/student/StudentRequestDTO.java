@@ -8,6 +8,6 @@ import lombok.Getter;
 public class StudentRequestDTO {
     @NotBlank
     private String codigoMatricula;
-    @NotBlank @NotNull
+    @NotNull
     private Long userId;
 }

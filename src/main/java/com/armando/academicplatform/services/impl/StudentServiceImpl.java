@@ -1,6 +1,7 @@
 package com.armando.academicplatform.services.impl;
 
 import com.armando.academicplatform.dtos.student.StudentRequestDTO;
+import com.armando.academicplatform.dtos.student.StudentResponseDTO;
 import com.armando.academicplatform.entities.Student;
 import com.armando.academicplatform.entities.User;
 import com.armando.academicplatform.repositories.StudentRepository;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -24,8 +26,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Student> findAll() {
-        return studentRepository.findAll();
+    public List<StudentResponseDTO> findAll() {
+        return studentRepository.findAll().stream()
+                .map(this::mapToStudentResponseDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -36,19 +40,27 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional
-    public Student save(StudentRequestDTO studentRequestDTO) {
+    public StudentResponseDTO save(StudentRequestDTO studentRequestDTO) {
         User user = userRepository.findById(studentRequestDTO.getUserId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         Student student = new Student();
         student.setCodigoMatricula(studentRequestDTO.getCodigoMatricula());
         student.setUser(user);
 
-        return studentRepository.save(student);
+        return mapToStudentResponseDTO(studentRepository.save(student));
     }
 
     @Override
     @Transactional(readOnly = true)
     public boolean existsByCodigoMatricula(String codigoMatricula) {
         return studentRepository.existsByCodigoMatricula(codigoMatricula);
+    }
+
+    private StudentResponseDTO mapToStudentResponseDTO(Student student){
+        return new StudentResponseDTO(
+                student.getCodigoMatricula(),
+                student.getUser().getName(),
+                student.getUser().getUsername()
+        );
     }
 }
