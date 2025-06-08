@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PeriodService {
-    List<Period> findAll();
+    List<PeriodDTO> findAll();
 
-    Optional<Period> findById(Long id);
+    Optional<PeriodDTO> findById(Long id);
 
-    Period create(PeriodDTO periodDTO);
+    PeriodDTO create(PeriodDTO periodDTO);
 }

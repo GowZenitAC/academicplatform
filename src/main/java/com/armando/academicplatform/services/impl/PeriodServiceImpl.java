@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PeriodServiceImpl implements PeriodService {
@@ -17,21 +19,29 @@ public class PeriodServiceImpl implements PeriodService {
     PeriodRepository periodRepository;
 
     @Override
-    public List<Period> findAll() {
-        return periodRepository.findAll();
+    public List<PeriodDTO> findAll() {
+        return periodRepository.findAll().stream()
+                .map(this::mapToPeriodDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Period> findById(Long id) {
-        return periodRepository.findById(id);
+    public Optional<PeriodDTO> findById(Long id) {
+        return periodRepository.findById(id).map(this::mapToPeriodDTO);
     }
 
     @Override
-    public Period create(PeriodDTO periodDTO) {
+    public PeriodDTO create(PeriodDTO periodDTO) {
         Period periodCreate = new Period();
         periodCreate.setName(periodDTO.getName());
         periodCreate.setStart_date(periodDTO.getStart_date());
         periodCreate.setFinish_date(periodDTO.getFinish_date());
-        return periodRepository.save(periodCreate);
+        return mapToPeriodDTO(periodRepository.save(periodCreate));
+    }
+
+    private PeriodDTO mapToPeriodDTO(Period period){
+        if (Objects.isNull(period))
+            return null;
+        return new PeriodDTO(period.getName(), period.getStart_date(), period.getFinish_date());
     }
 }

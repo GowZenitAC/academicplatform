@@ -21,7 +21,7 @@ public class PeriodController {
     PeriodService periodService;
 
     @GetMapping
-    public ResponseEntity<List<Period>> findAll(){
+    public ResponseEntity<List<PeriodDTO>> findAll(){
         return ResponseEntity.ok(periodService.findAll());
     }
 
