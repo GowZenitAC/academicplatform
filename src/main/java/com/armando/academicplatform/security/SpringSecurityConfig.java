@@ -36,6 +36,7 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/register").permitAll() // Permitir registro y login
                         .requestMatchers("/api/students/**").hasRole("ADMIN")
+                        .requestMatchers("/api/teachers/**").hasRole("ADMIN")
                         .requestMatchers("/api/periods/**").hasRole("ADMIN")
                         .anyRequest().authenticated() // Otros endpoints requieren autenticación
                 )

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -78,14 +79,17 @@ public class CourseServiceImpl implements CourseService {
 
     private CourseResponseDTO mapperToResponse(Course course){
         CourseResponseDTO dto = new CourseResponseDTO();
-        dto.setId(course.getId());
         dto.setName(course.getName());
         dto.setAcademicYear(course.getAcademicYear());
-
-        List<SubjectDetailOnCourseDTO> subjectResponsDTOS = course.getSubjects().stream()
-                .map(this::mapperToSubjectResponseDto)
-                .collect(Collectors.toList());
-        dto.setSubjects(subjectResponsDTOS);
+        if (course.getSubjects() == null){
+            dto.setSubjects(List.of());
+        }
+        else{
+            List<SubjectDetailOnCourseDTO> subjectResponsDTOS = course.getSubjects().stream()
+                    .map(this::mapperToSubjectResponseDto)
+                    .collect(Collectors.toList());
+            dto.setSubjects(subjectResponsDTOS);
+        }
         return dto;
     }
 

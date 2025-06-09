@@ -115,7 +115,6 @@ public class SubjectServiceImpl implements SubjectService {
 
     private CourseInfoDTO mapToCourseInfoDTO(Course course){
         CourseInfoDTO dto = new CourseInfoDTO();
-        dto.setId(course.getId());
         dto.setName(course.getName());
         dto.setAcademicYear(course.getAcademicYear());
         return dto;
