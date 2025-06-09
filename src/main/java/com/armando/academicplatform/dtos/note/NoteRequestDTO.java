@@ -16,5 +16,5 @@ public class NoteRequestDTO {
     @NotNull
     private Double value;
 
-    private String Observations;
+    private String observations;
 }
