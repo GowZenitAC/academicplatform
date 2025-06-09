@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NotaId implements Serializable {
+public class NoteId implements Serializable {
     private String student;
     private Long subject;
     private Long period;

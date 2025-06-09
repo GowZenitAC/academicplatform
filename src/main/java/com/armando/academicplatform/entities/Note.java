@@ -1,13 +1,14 @@
 package com.armando.academicplatform.entities;
 
-import com.armando.academicplatform.utils.NotaId;
+import com.armando.academicplatform.utils.NoteId;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@IdClass(NotaId.class)
+@Getter
+@Setter
+@IdClass(NoteId.class)
 public class Note {
     @Id
     @ManyToOne
