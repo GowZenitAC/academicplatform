@@ -9,7 +9,6 @@ import java.util.List;
 @Getter
 @Setter
 public class CourseResponseDTO {
-    private Long id;
     private String name;
     private String academicYear;
     private List<SubjectDetailOnCourseDTO> subjects;
